@@ -1,26 +1,24 @@
 package org.hillel.service;
 
 import org.hillel.Journey;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
-@Component("inMemoryJourneyService")
+
+//@Component("inMemoryJourneyService")
 public class InMemoryJourneyServiceImpl implements JourneyService {
 
     private Map<String, List<Journey>> storage = new HashMap<>();
 
-//    private final String id;
+    //    private final String id;
     public InMemoryJourneyServiceImpl() {
 //      id = identify;
-        System.out.println("call constructor InMemoryJourneyServiceImpl");
+//        System.out.println("call constructor InMemoryJourneyServiceImpl");
     }
 
     {
         storage.put("Kiev->Odessa", createJourney("Kiev", "Odessa"));
-        storage.put("Odessa->Lviv",  createJourney("Odessa", "Lviv"));
+        storage.put("Odessa->Lviv", createJourney("Odessa", "Lviv"));
         storage.put("Lviv->Kiev", createJourney("Lviv", "Kiev"));
     }
 
@@ -42,6 +40,16 @@ public class InMemoryJourneyServiceImpl implements JourneyService {
                 out.add(item);
             }
         }
+        return Collections.unmodifiableList(out);
+    }
+
+    @Override
+    public Collection<Journey> find(String stationFrom, String stationTo) {
+        if (storage == null || storage.isEmpty()) return Collections.emptyList();
+        List<Journey> journeys = storage.get(stationFrom + "->" + stationTo);
+        if (journeys == null || journeys.isEmpty()) return Collections.emptyList();
+        List<Journey> out = new ArrayList<>(journeys);
+
         return Collections.unmodifiableList(out);
     }
 }

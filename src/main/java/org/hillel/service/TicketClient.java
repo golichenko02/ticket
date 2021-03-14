@@ -12,13 +12,18 @@ import java.util.Collection;
 public class TicketClient {
     private  JourneyService journeyService;
 
-    public TicketClient(@Qualifier("inMemoryJourneyService") JourneyService journeyService) {
+    public TicketClient(@Qualifier("databaseJourneyService") JourneyService journeyService) {
         this.journeyService = journeyService;
     }
 
     public Collection<Journey> find (String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo){
         //todo: check input param
         return  journeyService.find(stationFrom, stationTo, dateFrom,dateTo);
+    }
+
+    public Collection<Journey> find (String stationFrom, String stationTo){
+        //todo: check input param
+        return  journeyService.find(stationFrom, stationTo);
     }
 
 }

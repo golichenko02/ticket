@@ -5,11 +5,16 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.*;
-@Component
+//@Component
 public class StubJourneyServiceImpl implements JourneyService {
 
     @Override
     public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Collection<Journey> find(String stationFrom, String stationTo) {
         return Collections.emptyList();
     }
 }

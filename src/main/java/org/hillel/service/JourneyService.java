@@ -8,4 +8,5 @@ import java.util.Collection;
 
 public interface JourneyService {
     Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo);
+    Collection<Journey> find(String stationFrom, String stationTo);
 }

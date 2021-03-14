@@ -1,4 +1,4 @@
-package org.hillel.context;
+package org.hillel.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
