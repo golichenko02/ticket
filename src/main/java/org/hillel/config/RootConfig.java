@@ -1,11 +1,9 @@
 package org.hillel.config;
 
-import org.hillel.service.InMemoryJourneyServiceImpl;
-import org.hillel.service.JourneyService;
-import org.hillel.service.StubJourneyServiceImpl;
-import org.hillel.service.TicketClient;
-import org.springframework.context.annotation.*;
-import org.springframework.stereotype.Component;
+import org.hillel.service.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("org.hillel.service")
@@ -13,13 +11,11 @@ public class RootConfig {
 
     @Bean
     public TicketClient ticketClient(){
-        return new TicketClient(inMemoryJourneyService());
+        return new TicketClient(dataBaseJourneyService());
     }
 
     @Bean("inMemoryJourneyService")
-    @Lazy
     public JourneyService inMemoryJourneyService(){
-        System.out.println("getInMemoryROOTCONFIG");
         return new InMemoryJourneyServiceImpl();
     }
     @Bean
@@ -27,5 +23,8 @@ public class RootConfig {
         return new StubJourneyServiceImpl();
     }
 
-
+    @Bean
+    public JourneyService dataBaseJourneyService(){
+        return new DatabaseJourneyServiceImpl();
+    }
 }
