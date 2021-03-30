@@ -4,6 +4,7 @@ import org.hillel.Journey;
 import org.hillel.utils.DatabaseUtil;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -17,17 +18,30 @@ public class DatabaseJourneyServiceImpl implements JourneyService {
 
     private List<Journey> getJourney(String from, String to) throws SQLException {
         List<Journey> journeys = new ArrayList<>();
-        Connection connection = DatabaseUtil.getConnection();
-        ResultSet resultSet = connection
-                .createStatement()
-                .executeQuery(String.format("SELECT station_to , station_from, departure, arrival, route " +
-                        "FROM tickets.public.journey " +
-                        "WHERE station_to = '%s' AND station_from = '%s'", to, from));
-        while (resultSet.next()) {
-            journeys.add(new Journey(resultSet.getString("station_from"), resultSet.getString("station_to"),
-                    LocalDate.parse(resultSet.getString("departure")), LocalDate.parse(resultSet.getString("arrival"))));
+
+        try (Connection connection = DatabaseUtil.getConnection()) {
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT station_to , station_from, departure, arrival, route " +
+                            "FROM tickets.public.journey " +
+                            "WHERE station_to = ? AND station_from = ?")) {
+                preparedStatement.setString(1, to);
+                preparedStatement.setString(2, from);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        journeys.add(new Journey(
+                                resultSet.getString("station_from"),
+                                resultSet.getString("station_to"),
+                                LocalDate.parse(resultSet.getString("departure")),
+                                LocalDate.parse(resultSet.getString("arrival"))));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        connection.close();
+
 
         return journeys.isEmpty() ? Collections.emptyList() : Collections.unmodifiableList(journeys);
     }
