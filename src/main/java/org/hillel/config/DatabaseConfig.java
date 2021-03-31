@@ -18,12 +18,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
 @PropertySource("database.properties")
 @EnableTransactionManagement
 public class DatabaseConfig {
+
 
     @Autowired
     private Environment environment;
@@ -35,6 +37,8 @@ public class DatabaseConfig {
         config.setUsername(environment.getProperty("database.username"));
         config.setJdbcUrl(environment.getProperty("database.url"));
         config.addDataSourceProperty("databaseName", environment.getProperty("database.name"));
+        config.setMaximumPoolSize(Objects.requireNonNull(environment.getProperty("database.maxPoolSize", Integer.class)));
+        config.setMinimumIdle(Objects.requireNonNull(environment.getProperty("database.minimumIdle", Integer.class)));
         config.setDataSourceClassName(PGSimpleDataSource.class.getName());
         return new HikariDataSource(config);
     }
@@ -49,12 +53,13 @@ public class DatabaseConfig {
         properties.put("hibernate.dialect", PostgreSQL10Dialect.class.getName());
         properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.show_sql", "true");
+        properties.put("javax.persistence.query.timeout", environment.getProperty("database.queryTimeout"));
         emf.setJpaProperties(properties);
         return emf;
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory){
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
         jpaTransactionManager.setDataSource(dataSource());

@@ -29,7 +29,7 @@ public class Starter {
 
         System.out.println("Create journey with id = " + ticketClient.createJourney(journeyEntity));
 
-        System.out.println("route Kyiv -> Lviv on a specific day");
+//        System.out.println("route Kyiv -> Lviv on a specific day");
         System.out.println(ticketClient.find("Kharkiv", "Dnipro", LocalDate.parse("2021-12-20"),
                 LocalDate.parse("2021-12-21")));
 
