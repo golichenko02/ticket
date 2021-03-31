@@ -2,6 +2,7 @@ package org.hillel.service;
 
 import org.hillel.Journey;
 import org.hillel.utils.DatabaseUtil;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-//@Component("databaseJourneyService")
+@Component("databaseJourneyService")
 public class DatabaseJourneyServiceImpl implements JourneyService {
 
     private List<Journey> getJourney(String from, String to) throws SQLException {
