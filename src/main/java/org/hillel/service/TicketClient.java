@@ -1,6 +1,8 @@
 package org.hillel.service;
 
 import org.hillel.Journey;
+import org.hillel.persistence.entity.JourneyEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +12,16 @@ import java.util.Collection;
 
 @Component
 public class TicketClient {
+
+    @Autowired
+    @Qualifier("databaseJourneyService")
     private  JourneyService journeyService;
 
-    public TicketClient(@Qualifier("databaseJourneyService") JourneyService journeyService) {
-        this.journeyService = journeyService;
+    @Autowired
+    private TransactionalJourneyService transactionalJourneyService;
+
+    public Long createJourney(final JourneyEntity journeyEntity){
+        return transactionalJourneyService.createJourney(journeyEntity);
     }
 
     public Collection<Journey> find (String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo){
@@ -25,5 +33,7 @@ public class TicketClient {
         //todo: check input param
         return  journeyService.find(stationFrom, stationTo);
     }
+
+
 
 }
