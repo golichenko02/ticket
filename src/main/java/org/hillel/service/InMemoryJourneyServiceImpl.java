@@ -1,6 +1,7 @@
 package org.hillel.service;
 
 import org.hillel.Journey;
+import org.hillel.persistence.entity.JourneyEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -28,6 +29,11 @@ public class InMemoryJourneyServiceImpl implements JourneyService {
                 new Journey(from, to, LocalDate.now(), LocalDate.now().plusDays(1)),
                 new Journey(from, to, LocalDate.now().plusDays(1), LocalDate.now().plusDays(2)),
                 new Journey(from, to, LocalDate.now().plusDays(2), LocalDate.now().plusDays(3)));
+    }
+
+    @Override
+    public Long createJourney(JourneyEntity journeyEntity) {
+        return null;
     }
 
     @Override

@@ -1,10 +1,17 @@
 package org.hillel.persistence.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "journey")
+@NoArgsConstructor
+@Getter
+@Setter
 public class JourneyEntity {
 
     @Id
@@ -33,57 +40,5 @@ public class JourneyEntity {
         this.departure = departure;
         this.arrival = arrival;
         this.route = stationFrom + " -> " + stationTo;
-    }
-
-    public JourneyEntity() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getStationFrom() {
-        return stationFrom;
-    }
-
-    public void setStationFrom(String stationFrom) {
-        this.stationFrom = stationFrom;
-    }
-
-    public String getStationTo() {
-        return stationTo;
-    }
-
-    public void setStationTo(String stationTo) {
-        this.stationTo = stationTo;
-    }
-
-    public LocalDate getDeparture() {
-        return departure;
-    }
-
-    public void setDeparture(LocalDate departure) {
-        this.departure = departure;
-    }
-
-    public LocalDate getArrival() {
-        return arrival;
-    }
-
-    public void setArrival(LocalDate arrival) {
-        this.arrival = arrival;
-    }
-
-    public String getRoute() {
-        return route;
-    }
-
-    public void setRoute(String route) {
-        this.route = route;
     }
 }

@@ -18,7 +18,8 @@ public class TicketClient {
     private  JourneyService journeyService;
 
     @Autowired
-    private TransactionalJourneyService transactionalJourneyService;
+    @Qualifier("transactionalJourneyService")
+    private JourneyService transactionalJourneyService;
 
     public Long createJourney(final JourneyEntity journeyEntity){
         return transactionalJourneyService.createJourney(journeyEntity);

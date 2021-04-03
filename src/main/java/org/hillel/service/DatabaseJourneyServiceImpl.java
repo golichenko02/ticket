@@ -1,6 +1,7 @@
 package org.hillel.service;
 
 import org.hillel.Journey;
+import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.utils.DatabaseUtil;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,11 @@ public class DatabaseJourneyServiceImpl implements JourneyService {
 
 
         return journeys.isEmpty() ? Collections.emptyList() : Collections.unmodifiableList(journeys);
+    }
+
+    @Override
+    public Long createJourney(JourneyEntity journeyEntity) {
+        return null;
     }
 
     @Override
