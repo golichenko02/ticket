@@ -2,6 +2,7 @@ package org.hillel.service;
 
 import org.hillel.Journey;
 import org.hillel.persistence.entity.JourneyEntity;
+import org.hillel.persistence.entity.StopEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,16 @@ public class TicketClient {
     @Qualifier("transactionalJourneyService")
     private JourneyService transactionalJourneyService;
 
+    @Autowired
+    @Qualifier("transactionalStopService")
+    private StopService transactionalStopService;
+
     public Long createJourney(final JourneyEntity journeyEntity){
         return transactionalJourneyService.createJourney(journeyEntity);
+    }
+
+    public Long createStop(final StopEntity stopEntity){
+        return transactionalStopService.createStop(stopEntity);
     }
 
     public Collection<Journey> find (String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo){

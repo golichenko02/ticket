@@ -3,6 +3,7 @@ package org.hillel.persistence.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hillel.persistence.entity.enums.DirectionType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,11 +13,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class JourneyEntity {
+public class JourneyEntity extends AbstractModifyEntity<Long> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(name = "station_from")
     private String stationFrom;
@@ -32,13 +30,13 @@ public class JourneyEntity {
 
 
     @Column(name = "route")
-    private String route;
+    @Enumerated(EnumType.STRING)
+    private DirectionType direction = DirectionType.TO;
 
     public JourneyEntity(String stationFrom, String stationTo, LocalDate departure, LocalDate arrival) {
         this.stationFrom = stationFrom;
         this.stationTo = stationTo;
         this.departure = departure;
         this.arrival = arrival;
-        this.route = stationFrom + " -> " + stationTo;
     }
 }
