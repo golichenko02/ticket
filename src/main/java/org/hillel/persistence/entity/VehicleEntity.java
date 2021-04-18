@@ -3,10 +3,8 @@ package org.hillel.persistence.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +19,9 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
 
     @Embedded
     private CommonInfo commonInfo;
+
+    @Column(name = "max_seats", nullable = false)
+    private int maxSeats;
 
     @OneToMany(mappedBy = "vehicle")
     private List<JourneyEntity> journeys = new ArrayList<>();
