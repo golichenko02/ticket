@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "stop_additional_info")
@@ -22,6 +23,12 @@ public class StopAdditionalInfoEntity {
 
     @Column(name = "latitude", nullable = false)
     private double latitude;
+
+    @Column(name = "build_date", nullable = false)
+    private LocalDate buildDate;
+
+    @Column(name = "city", nullable = false, length = 50)
+    private String city;
 
     @OneToOne
     @MapsId
