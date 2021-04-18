@@ -8,15 +8,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public class TicketClient {
 
     @Autowired
     @Qualifier("databaseJourneyService")
-    private  JourneyService journeyService;
+    private JourneyService databaseJourneyService;
 
     @Autowired
     @Qualifier("transactionalJourneyService")
@@ -26,24 +26,31 @@ public class TicketClient {
     @Qualifier("transactionalStopService")
     private StopService transactionalStopService;
 
-    public Long createJourney(final JourneyEntity journeyEntity){
+    public Long createJourney(final JourneyEntity journeyEntity) {
         return transactionalJourneyService.createJourney(journeyEntity);
     }
 
-    public Long createStop(final StopEntity stopEntity){
+    public Optional<JourneyEntity> getJourneyById(Long id, boolean withDependencies) {
+//        Assert.notNull(id, "id must be set");
+        return id == null ? Optional.empty() : transactionalJourneyService.getById(id, withDependencies);
+    }
+
+    public Long createStop(final StopEntity stopEntity) {
         return transactionalStopService.createStop(stopEntity);
     }
 
-    public Collection<Journey> find (String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo){
+    public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
         //todo: check input param
-        return  journeyService.find(stationFrom, stationTo, dateFrom,dateTo);
+        return databaseJourneyService.find(stationFrom, stationTo, dateFrom, dateTo);
     }
 
-    public Collection<Journey> find (String stationFrom, String stationTo){
+    public Collection<Journey> find(String stationFrom, String stationTo) {
         //todo: check input param
-        return  journeyService.find(stationFrom, stationTo);
+        return databaseJourneyService.find(stationFrom, stationTo);
     }
 
 
-
+    public void saveJourney(JourneyEntity journey) {
+        transactionalJourneyService.save(journey);
+    }
 }

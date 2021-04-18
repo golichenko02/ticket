@@ -3,10 +3,9 @@ package org.hillel.service;
 import org.hillel.Journey;
 import org.hillel.persistence.entity.JourneyEntity;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
 
 public interface JourneyService {
 
@@ -14,4 +13,11 @@ public interface JourneyService {
 
     Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo);
     Collection<Journey> find(String stationFrom, String stationTo);
+
+    default Optional<JourneyEntity> getById(Long id,boolean withDependencies){
+        return Optional.empty();
+    }
+
+    default void save(JourneyEntity journey){}
 }
+
