@@ -3,7 +3,6 @@ package org.hillel.persistence.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hillel.persistence.entity.util.YesNoConverter;
 
 import javax.persistence.*;
@@ -13,7 +12,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class AbstractModifyEntity <ID extends Serializable> {
+public abstract class AbstractModifyEntity<ID extends Serializable> {
 
 
     @Id

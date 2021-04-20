@@ -13,10 +13,11 @@ import java.util.StringJoiner;
 @Setter
 @Accessors(chain = true)
 public class CommonInfo {
+
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false, length = 10000)
+    @Column(name = "description", nullable = false, length = 1000)
     private String description;
 
     @Override

@@ -3,6 +3,10 @@ package org.hillel.persistence.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.SneakyThrows;
+import org.hibernate.annotations.Check;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hillel.persistence.entity.exceptions.TooMuchSeatsException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +19,8 @@ import java.util.StringJoiner;
 @Getter
 @Setter
 @NoArgsConstructor
+@Check(constraints = "max_seats > 0")
+@DynamicUpdate
 public class VehicleEntity extends AbstractModifyEntity<Long> {
 
     @Embedded
@@ -26,13 +32,33 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
     @OneToMany(mappedBy = "vehicle")
     private List<JourneyEntity> journeys = new ArrayList<>();
 
+    @OneToMany(mappedBy = "vehicle", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<VehicleSeatEntity> seats = new ArrayList<>();
+
     public void addJourney(final JourneyEntity journeyEntity) {
-        if(Objects.isNull(journeyEntity)) throw new IllegalArgumentException("journeyEntity must be set");
+        if (Objects.isNull(journeyEntity)) throw new IllegalArgumentException("JourneyEntity must be set");
         if (journeys == null) {
             journeys = new ArrayList<>();
         }
         this.journeys.add(journeyEntity);
         journeyEntity.setVehicle(this);
+        this.seats.forEach(seat -> {
+            if (seat.getJourney() == null) {
+                seat.setJourney(journeyEntity);
+                journeyEntity.getSeats().add(seat);
+            }
+        });
+    }
+
+    @SneakyThrows
+    public void addSeat(VehicleSeatEntity seat) {
+        if (Objects.isNull(seat)) throw new IllegalArgumentException("VehicleSeatEntity must be set");
+        if (seats == null)
+            seats = new ArrayList<>();
+        if (seats.size() == maxSeats)
+            throw new TooMuchSeatsException("The maximum value of seats for " + commonInfo.getName() + " is " + maxSeats);
+        this.seats.add(seat);
+        seat.setVehicle(this);
     }
 
     @Override

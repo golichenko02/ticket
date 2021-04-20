@@ -50,7 +50,7 @@ public class DatabaseConfig {
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         Properties properties = new Properties();
         properties.put("hibernate.dialect", PostgreSQL10Dialect.class.getName());
-        properties.put("hibernate.hbm2ddl.auto", "update");
+        properties.put("hibernate.hbm2ddl.auto", "create");
         properties.put("hibernate.show_sql", "true");
         properties.put("javax.persistence.query.timeout", environment.getProperty("database.queryTimeout"));
         emf.setJpaProperties(properties);

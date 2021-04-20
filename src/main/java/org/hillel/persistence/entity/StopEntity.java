@@ -4,6 +4,7 @@ package org.hillel.persistence.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,12 +16,13 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
+@DynamicUpdate
 public class StopEntity extends AbstractModifyEntity<Long> {
 
     @Embedded
     private CommonInfo commonInfo;
 
-    @OneToOne(mappedBy = "stopEntity", cascade = {CascadeType.PERSIST})
+    @OneToOne(mappedBy = "stopEntity", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private StopAdditionalInfoEntity additionalInfo;
 
     @ManyToMany(mappedBy = "stops")
@@ -43,7 +45,6 @@ public class StopEntity extends AbstractModifyEntity<Long> {
         if (Objects.isNull(journey)) throw new IllegalArgumentException("StopEntity must be set");
         if (journeys == null) journeys = new ArrayList<>();
         this.journeys.add(journey);
-//        journey.addStop(this);
     }
 
 }

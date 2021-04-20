@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hillel.persistence.entity.enums.DirectionType;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -34,22 +35,23 @@ public class JourneyEntity extends AbstractModifyEntity<Long> {
     @Column(name = "arrival", nullable = false)
     private LocalDate arrival;
 
-
     @Column(name = "direction", length = 30)
     @Enumerated(EnumType.STRING)
     private DirectionType direction = DirectionType.TO;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_id")
     private VehicleEntity vehicle;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "journey_stop", indexes = @Index(name = "journey_stop_idx", columnList = "journey_id, stop_id"),
             joinColumns = @JoinColumn(name = "journey_id"),
             inverseJoinColumns = @JoinColumn(name = "stop_id")
     )
     private List<StopEntity> stops = new ArrayList<>();
 
+    @OneToMany(mappedBy = "journey", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<VehicleSeatEntity> seats = new ArrayList<>();
 
     public void addStop(final StopEntity stop) {
         if (Objects.isNull(stop)) throw new IllegalArgumentException("StopEntity must be set");
@@ -67,8 +69,6 @@ public class JourneyEntity extends AbstractModifyEntity<Long> {
         return getId() != null && Objects.equals(journey.getId(), getId());
     }
 
-
-
     @Override
     public String toString() {
         return new StringJoiner(", ", JourneyEntity.class.getSimpleName() + "[", "]")
@@ -79,5 +79,11 @@ public class JourneyEntity extends AbstractModifyEntity<Long> {
                 .add("direction=" + direction)
                 .add("vehicle=" + vehicle)
                 .toString();
+    }
+
+    public void addVehicle(final VehicleEntity vehicle) {
+        Assert.notNull(vehicle, "entity must be set");
+        this.vehicle = vehicle;
+        vehicle.addJourney(this);
     }
 }
