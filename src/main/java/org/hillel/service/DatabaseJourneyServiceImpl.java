@@ -49,7 +49,7 @@ public class DatabaseJourneyServiceImpl implements JourneyService {
     }
 
     @Override
-    public Long createJourney(JourneyEntity journeyEntity) {
+    public JourneyEntity createOrUpdateJourney(JourneyEntity journeyEntity) {
         return null;
     }
 

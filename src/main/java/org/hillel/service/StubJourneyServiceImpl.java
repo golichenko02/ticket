@@ -6,11 +6,12 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.*;
+
 @Component
 public class StubJourneyServiceImpl implements JourneyService {
 
     @Override
-    public Long createJourney(JourneyEntity journeyEntity) {
+    public JourneyEntity createOrUpdateJourney(JourneyEntity journeyEntity) {
         return null;
     }
 
