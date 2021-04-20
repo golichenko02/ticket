@@ -5,19 +5,24 @@ import org.hillel.persistence.entity.JourneyEntity;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 public interface JourneyService {
 
-    Long createJourney(JourneyEntity journeyEntity);
+    JourneyEntity createOrUpdateJourney(JourneyEntity journeyEntity);
 
-    Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo);
-    Collection<Journey> find(String stationFrom, String stationTo);
+    default Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
+        return Collections.emptyList();
+    }
 
-    default Optional<JourneyEntity> getById(Long id,boolean withDependencies){
+    default Collection<Journey> find(String stationFrom, String stationTo) {
+        return Collections.emptyList();
+    }
+
+    default Optional<JourneyEntity> findById(Long id, boolean withDependencies) {
         return Optional.empty();
     }
 
-    default void save(JourneyEntity journey){}
 }
 

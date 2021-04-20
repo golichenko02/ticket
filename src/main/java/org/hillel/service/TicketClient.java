@@ -3,6 +3,8 @@ package org.hillel.service;
 import org.hillel.Journey;
 import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.StopEntity;
+import org.hillel.persistence.entity.VehicleEntity;
+import org.hillel.persistence.entity.VehicleSeatEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -26,17 +28,33 @@ public class TicketClient {
     @Qualifier("transactionalStopService")
     private StopService transactionalStopService;
 
-    public Long createJourney(final JourneyEntity journeyEntity) {
-        return transactionalJourneyService.createJourney(journeyEntity);
+    @Autowired
+    @Qualifier("transactionalVehicleService")
+    private VehicleService transactionalVehicleService;
+
+    @Autowired
+    @Qualifier("transactionalVehicleSeatService")
+    private VehicleSeatService transactionalVehicleSeatService;
+
+    public JourneyEntity createOrUpdateJourney(final JourneyEntity journeyEntity) {
+        return transactionalJourneyService.createOrUpdateJourney(journeyEntity);
     }
 
-    public Optional<JourneyEntity> getJourneyById(Long id, boolean withDependencies) {
+    public Optional<JourneyEntity> findJourneyById(Long id, boolean withDependencies) {
 //        Assert.notNull(id, "id must be set");
-        return id == null ? Optional.empty() : transactionalJourneyService.getById(id, withDependencies);
+        return id == null ? Optional.empty() : transactionalJourneyService.findById(id, withDependencies);
     }
 
-    public Long createStop(final StopEntity stopEntity) {
-        return transactionalStopService.createStop(stopEntity);
+    public StopEntity createOrUpdateStop(final StopEntity stopEntity) {
+        return transactionalStopService.createOrUpdateStop(stopEntity);
+    }
+
+    public VehicleEntity createOrUpdateVehicle(final VehicleEntity vehicleEntity) {
+        return transactionalVehicleService.createOrUpdateVehicle(vehicleEntity);
+    }
+
+    public VehicleSeatEntity createOrUpdateSeat(final VehicleSeatEntity vehicleSeatEntity) {
+        return transactionalVehicleSeatService.createOrUpdateSeat(vehicleSeatEntity);
     }
 
     public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
@@ -50,7 +68,4 @@ public class TicketClient {
     }
 
 
-    public void saveJourney(JourneyEntity journey) {
-        transactionalJourneyService.save(journey);
-    }
 }
