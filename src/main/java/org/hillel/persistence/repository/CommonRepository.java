@@ -1,5 +1,6 @@
 package org.hillel.persistence.repository;
 
+import lombok.SneakyThrows;
 import org.hillel.persistence.entity.AbstractModifyEntity;
 import org.springframework.util.Assert;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 public abstract class CommonRepository<E extends AbstractModifyEntity<ID>, ID extends Serializable> implements GenericRepository<E, ID> {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
     private final Class<E> entityClass;
 
     protected CommonRepository(Class<E> entityClass) {
@@ -21,8 +22,7 @@ public abstract class CommonRepository<E extends AbstractModifyEntity<ID>, ID ex
     }
 
     @Override
-    public E
-    createOrUpdate(E entity) {
+    public E createOrUpdate(E entity) {
         Assert.notNull(entity, "entity must be set");
         if (Objects.isNull(entity.getId()))
             entityManager.persist(entity);
@@ -37,13 +37,18 @@ public abstract class CommonRepository<E extends AbstractModifyEntity<ID>, ID ex
         return Optional.ofNullable(entityManager.find(entityClass, id));
     }
 
+    @SneakyThrows
     @Override
     public void removeById(ID id) {
-        throw new UnsupportedOperationException("not implement");
+        entityManager.remove(entityManager.getReference(entityClass, id));
     }
 
     @Override
     public void remove(E entity) {
-        throw new UnsupportedOperationException("not implement");
+        if (entityManager.contains(entity))
+            entityManager.remove(entity);
+        else
+            removeById(entity.getId());
+
     }
 }

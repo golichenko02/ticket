@@ -10,4 +10,14 @@ public class JourneyRepository extends CommonRepository<JourneyEntity, Long> {
         super(JourneyEntity.class);
     }
 
+    @Override
+    public JourneyEntity createOrUpdate(JourneyEntity entity) {
+//        VehicleEntity vehicleEntity = entity.getVehicle();
+//        if (Objects.nonNull(vehicleEntity)) {
+//            if (!entityManager.contains(vehicleEntity)) {
+//                entity.addVehicle(entityManager.merge(vehicleEntity));
+//            }
+//        }
+        return super.createOrUpdate(entity);
+    }
 }

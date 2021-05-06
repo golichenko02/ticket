@@ -67,5 +67,21 @@ public class TicketClient {
         return databaseJourneyService.find(stationFrom, stationTo);
     }
 
+    public void removeJourney(JourneyEntity journeyEntity) {
+        transactionalJourneyService.remove(journeyEntity);
+    }
+
+    public void removeJourneyById(Long id) {
+        transactionalJourneyService.removeById(id);
+    }
+
+
+    public void removeVehicle(VehicleEntity vehicleEntity) {
+        transactionalVehicleService.remove(vehicleEntity);
+    }
+
+    public void removeVehicleById(Long id) {
+        transactionalVehicleService.removeById(id);
+    }
 
 }

@@ -18,4 +18,15 @@ public class TransactionalVehicleService implements VehicleService {
         return vehicleRepository.createOrUpdate(vehicleEntity);
     }
 
+    @Transactional
+    @Override
+    public void remove(VehicleEntity vehicleEntity) {
+        vehicleRepository.remove(vehicleEntity);
+    }
+
+    @Transactional
+    @Override
+    public void removeById(Long id) {
+        vehicleRepository.removeById(id);
+    }
 }

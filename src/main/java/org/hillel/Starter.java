@@ -25,6 +25,9 @@ public class Starter {
 
         JourneyEntity journeyEntity = buildJourney("Одесса", "Киев", LocalDate.now(), LocalDate.now().plusDays(1));
 
+//        journeyEntity.addVehicle(train);
+
+
         journeyEntity = ticketClient.createOrUpdateJourney(journeyEntity);
 
         journeyEntity.addStop(buildStop(45D, 78D, LocalDate.parse("1865-04-05"), "Одесса",
@@ -40,9 +43,12 @@ public class Starter {
         for (VehicleSeatEntity seat : buildSeats(false, 10, 11, 12, 20, 25, 30)) {
             train.addSeat(seat.setJourney(journeyEntity));
         }
-
         ticketClient.createOrUpdateVehicle(train);
 
+
+        System.out.println("delete vehicle from STARTER");
+        ticketClient.removeVehicleById(train.getId());
+//        ticketClient.removeJourney(journeyEntity);
     }
 
     private static JourneyEntity buildJourney(final String from, final String to,

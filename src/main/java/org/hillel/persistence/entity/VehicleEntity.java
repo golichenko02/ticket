@@ -7,12 +7,10 @@ import lombok.SneakyThrows;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hillel.persistence.entity.exceptions.TooMuchSeatsException;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.*;
 
 @Entity
 @Table(name = "vehicle")
@@ -29,7 +27,7 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
     @Column(name = "max_seats", nullable = false)
     private int maxSeats;
 
-    @OneToMany(mappedBy = "vehicle")
+    @OneToMany(mappedBy = "vehicle", cascade = {CascadeType.PERSIST, CascadeType.MERGE}/*, orphanRemoval = true*/)
     private List<JourneyEntity> journeys = new ArrayList<>();
 
     @OneToMany(mappedBy = "vehicle", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -80,4 +78,10 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
                 .add("commonInfo=" + commonInfo)
                 .toString();
     }
+
+    public void removeAllJourneyAndSeats(){
+        if(CollectionUtils.isEmpty(journeys)) return;
+        journeys.forEach(journeyEntity -> journeyEntity.setVehicle(null));
+        seats.forEach(vehicleSeatEntity -> vehicleSeatEntity.setVehicle(null));
+     }
 }

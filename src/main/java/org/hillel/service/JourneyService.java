@@ -12,6 +12,12 @@ public interface JourneyService {
 
     JourneyEntity createOrUpdateJourney(JourneyEntity journeyEntity);
 
+    default void removeById(Long id) {
+    }
+
+    default void remove(JourneyEntity entity) {
+    }
+
     default Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
         return Collections.emptyList();
     }

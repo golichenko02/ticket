@@ -17,7 +17,6 @@ public class TransactionalJourneyService implements JourneyService {
     @Transactional
     @Override
     public JourneyEntity createOrUpdateJourney(final JourneyEntity journeyEntity) {
-        //todo: chek
         return journeyRepository.createOrUpdate(journeyEntity);
     }
 
@@ -31,5 +30,17 @@ public class TransactionalJourneyService implements JourneyService {
             journeyEntity.getStops().size();
         }
         return byId;
+    }
+
+    @Transactional
+    @Override
+    public void removeById(Long id) {
+        journeyRepository.removeById(id);
+    }
+
+    @Transactional
+    @Override
+    public void remove(JourneyEntity entity) {
+        journeyRepository.remove(entity);
     }
 }
