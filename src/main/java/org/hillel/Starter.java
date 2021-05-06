@@ -25,8 +25,6 @@ public class Starter {
 
         JourneyEntity journeyEntity = buildJourney("Одесса", "Киев", LocalDate.now(), LocalDate.now().plusDays(1));
 
-//        journeyEntity.addVehicle(train);
-
 
         journeyEntity = ticketClient.createOrUpdateJourney(journeyEntity);
 
@@ -42,13 +40,17 @@ public class Starter {
 
         for (VehicleSeatEntity seat : buildSeats(false, 10, 11, 12, 20, 25, 30)) {
             train.addSeat(seat.setJourney(journeyEntity));
+            journeyEntity.getSeats().add(seat);
         }
         ticketClient.createOrUpdateVehicle(train);
 
 
-        System.out.println("delete vehicle from STARTER");
+        System.out.println("delete ALL from STARTER");
+        ticketClient.removeStop(journeyEntity.getStops().get(1));
+//        ticketClient.removeStopById(journeyEntity.getStops().get(1).getId()); ---> отрабатывает также
         ticketClient.removeVehicleById(train.getId());
-//        ticketClient.removeJourney(journeyEntity);
+        ticketClient.removeJourney(journeyEntity);
+//         в итоге в БД должна остаться информация только по одной остановке и доп. информация по ней
     }
 
     private static JourneyEntity buildJourney(final String from, final String to,

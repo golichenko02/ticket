@@ -84,4 +84,11 @@ public class TicketClient {
         transactionalVehicleService.removeById(id);
     }
 
+    public void removeStop(StopEntity stopEntity) {
+        transactionalStopService.remove(stopEntity);
+    }
+
+    public void removeStopById(Long id) {
+        transactionalStopService.removeById(id);
+    }
 }

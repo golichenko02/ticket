@@ -52,7 +52,7 @@ public class JourneyEntity extends AbstractModifyEntity<Long> {
     )
     private List<StopEntity> stops = new ArrayList<>();
 
-    @OneToMany(mappedBy = "journey", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "journey", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<VehicleSeatEntity> seats = new ArrayList<>();
 
     public void addStop(final StopEntity stop) {
@@ -69,6 +69,11 @@ public class JourneyEntity extends AbstractModifyEntity<Long> {
         if (!(o instanceof JourneyEntity)) return false;
         JourneyEntity journey = (JourneyEntity) o;
         return getId() != null && Objects.equals(journey.getId(), getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     @Override

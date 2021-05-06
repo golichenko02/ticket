@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hillel.persistence.entity.exceptions.TooMuchSeatsException;
 import org.springframework.util.CollectionUtils;
@@ -19,6 +20,7 @@ import java.util.*;
 @NoArgsConstructor
 @Check(constraints = "max_seats > 0")
 @DynamicUpdate
+@DynamicInsert
 public class VehicleEntity extends AbstractModifyEntity<Long> {
 
     @Embedded
@@ -27,7 +29,7 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
     @Column(name = "max_seats", nullable = false)
     private int maxSeats;
 
-    @OneToMany(mappedBy = "vehicle", cascade = {CascadeType.PERSIST, CascadeType.MERGE}/*, orphanRemoval = true*/)
+    @OneToMany(mappedBy = "vehicle", cascade = {CascadeType.PERSIST/*, CascadeType.MERGE*/}/*, orphanRemoval = true*/)
     private List<JourneyEntity> journeys = new ArrayList<>();
 
     @OneToMany(mappedBy = "vehicle", cascade = {CascadeType.PERSIST, CascadeType.MERGE})

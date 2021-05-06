@@ -19,4 +19,16 @@ public class TransactionalStopService implements StopService {
         //todo: chek
         return stopRepository.createOrUpdate(stopEntity);
     }
+
+    @Transactional
+    @Override
+    public void remove(StopEntity stopEntity) {
+        stopRepository.remove(stopEntity);
+    }
+
+    @Transactional
+    @Override
+    public void removeById(Long id) {
+        stopRepository.removeById(id);
+    }
 }

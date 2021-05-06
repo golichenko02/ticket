@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hillel.persistence.entity.util.YesNoConverter;
 
@@ -17,6 +18,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @DynamicUpdate
+@DynamicInsert
 @Check(constraints = "seat_number > 0")
 public class VehicleSeatEntity extends AbstractModifyEntity<Long> {
 
@@ -27,11 +29,11 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long> {
     @Convert(converter = YesNoConverter.class)
     private boolean isBooked = false;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(/*cascade = {CascadeType.PERSIST},*/ fetch = FetchType.LAZY)
     @JoinColumn(name = "journey_id")
     private JourneyEntity journey;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(/*cascade = {CascadeType.PERSIST},*/ fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_id")
     private VehicleEntity vehicle;
 
