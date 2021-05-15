@@ -1,6 +1,5 @@
 package org.hillel.service;
 
-import org.hillel.Journey;
 import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.StopEntity;
 import org.hillel.persistence.entity.VehicleEntity;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -17,27 +15,23 @@ import java.util.Optional;
 public class TicketClient {
 
     @Autowired
-    @Qualifier("databaseJourneyService")
-    private JourneyService databaseJourneyService;
-
-    @Autowired
     @Qualifier("transactionalJourneyService")
-    private JourneyService transactionalJourneyService;
+    private GenericService transactionalJourneyService;
 
     @Autowired
     @Qualifier("transactionalStopService")
-    private StopService transactionalStopService;
+    private GenericService transactionalStopService;
 
     @Autowired
     @Qualifier("transactionalVehicleService")
-    private VehicleService transactionalVehicleService;
+    private GenericService transactionalVehicleService;
 
     @Autowired
     @Qualifier("transactionalVehicleSeatService")
-    private VehicleSeatService transactionalVehicleSeatService;
+    private GenericService transactionalVehicleSeatService;
 
     public JourneyEntity createOrUpdateJourney(final JourneyEntity journeyEntity) {
-        return transactionalJourneyService.createOrUpdateJourney(journeyEntity);
+        return (JourneyEntity) transactionalJourneyService.createOrUpdate(journeyEntity);
     }
 
     public Optional<JourneyEntity> findJourneyById(Long id, boolean withDependencies) {
@@ -46,25 +40,15 @@ public class TicketClient {
     }
 
     public StopEntity createOrUpdateStop(final StopEntity stopEntity) {
-        return transactionalStopService.createOrUpdateStop(stopEntity);
+        return (StopEntity) transactionalStopService.createOrUpdate(stopEntity);
     }
 
     public VehicleEntity createOrUpdateVehicle(final VehicleEntity vehicleEntity) {
-        return transactionalVehicleService.createOrUpdateVehicle(vehicleEntity);
+        return (VehicleEntity) transactionalVehicleService.createOrUpdate(vehicleEntity);
     }
 
     public VehicleSeatEntity createOrUpdateSeat(final VehicleSeatEntity vehicleSeatEntity) {
-        return transactionalVehicleSeatService.createOrUpdateSeat(vehicleSeatEntity);
-    }
-
-    public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
-        //todo: check input param
-        return databaseJourneyService.find(stationFrom, stationTo, dateFrom, dateTo);
-    }
-
-    public Collection<Journey> find(String stationFrom, String stationTo) {
-        //todo: check input param
-        return databaseJourneyService.find(stationFrom, stationTo);
+        return (VehicleSeatEntity) transactionalVehicleSeatService.createOrUpdate(vehicleSeatEntity);
     }
 
     public void removeJourney(JourneyEntity journeyEntity) {
@@ -91,4 +75,29 @@ public class TicketClient {
     public void removeStopById(Long id) {
         transactionalStopService.removeById(id);
     }
+
+    public Collection<VehicleEntity> findVehiclesByIds(Long... ids) {
+        return transactionalVehicleService.findByIds(ids);
+    }
+
+    public Optional<VehicleEntity> findVehicleById(Long id) {
+        return transactionalVehicleService.findById(id);
+    }
+
+    public Collection<VehicleEntity> findAllVehicles(QueryType queryType) {
+        return transactionalVehicleService.findAll(queryType);
+    }
+
+    public Collection<JourneyEntity> findAllJourneys(QueryType queryType) {
+        return transactionalJourneyService.findAll(queryType);
+    }
+
+    public Collection<StopEntity> findAllStops(QueryType queryType) {
+        return transactionalStopService.findAll(queryType);
+    }
+
+    public Collection<VehicleSeatEntity> findAllSeats(QueryType queryType) {
+        return transactionalVehicleSeatService.findAll(queryType);
+    }
+
 }

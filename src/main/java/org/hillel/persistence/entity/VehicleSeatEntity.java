@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hillel.persistence.entity.util.YesNoConverter;
 
 import javax.persistence.*;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "vehicle_seat")
@@ -20,6 +21,9 @@ import javax.persistence.*;
 @DynamicUpdate
 @DynamicInsert
 @Check(constraints = "seat_number > 0")
+@NamedQueries(value = {
+        @NamedQuery(name = "findAllVehicleSeatEntity", query = "from VehicleSeatEntity")
+})
 public class VehicleSeatEntity extends AbstractModifyEntity<Long> {
 
     @Column(name = "seat_number", nullable = false)
@@ -37,6 +41,12 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long> {
     @JoinColumn(name = "vehicle_id")
     private VehicleEntity vehicle;
 
-
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", VehicleSeatEntity.class.getSimpleName() + "[", "]")
+                .add("seatNumber=" + seatNumber)
+                .add("isBooked=" + isBooked)
+                .toString();
+    }
 }
 

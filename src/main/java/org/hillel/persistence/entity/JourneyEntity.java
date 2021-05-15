@@ -22,6 +22,9 @@ import java.util.StringJoiner;
 @Setter
 @DynamicUpdate
 @DynamicInsert
+@NamedQueries(value = {
+        @NamedQuery(name = "findAllJourneyEntity", query = "from JourneyEntity")
+})
 public class JourneyEntity extends AbstractModifyEntity<Long> {
 
 

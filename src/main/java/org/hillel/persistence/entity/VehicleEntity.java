@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.*;
 import java.util.*;
 
+
 @Entity
 @Table(name = "vehicle")
 @Getter
@@ -21,6 +22,17 @@ import java.util.*;
 @Check(constraints = "max_seats > 0")
 @DynamicUpdate
 @DynamicInsert
+@NamedQueries(value = {
+        @NamedQuery(name = "findAllVehicleEntity", query = "from VehicleEntity")
+})
+@NamedStoredProcedureQueries(
+        @NamedStoredProcedureQuery(
+                name = "findAllVehicles",
+                procedureName = "find_all",
+                parameters = @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, type = Class.class),
+                resultClasses = VehicleEntity.class
+        )
+)
 public class VehicleEntity extends AbstractModifyEntity<Long> {
 
     @Embedded
@@ -81,9 +93,9 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
                 .toString();
     }
 
-    public void removeAllJourneyAndSeats(){
-        if(CollectionUtils.isEmpty(journeys)) return;
+    public void removeAllJourneyAndSeats() {
+        if (CollectionUtils.isEmpty(journeys)) return;
         journeys.forEach(journeyEntity -> journeyEntity.setVehicle(null));
         seats.forEach(vehicleSeatEntity -> vehicleSeatEntity.setVehicle(null));
-     }
+    }
 }

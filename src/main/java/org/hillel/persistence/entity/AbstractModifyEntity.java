@@ -14,7 +14,6 @@ import java.time.Instant;
 @MappedSuperclass
 public abstract class AbstractModifyEntity<ID extends Serializable> {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ID id;

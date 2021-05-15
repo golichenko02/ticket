@@ -3,6 +3,7 @@ package org.hillel;
 import org.hillel.config.RootConfig;
 import org.hillel.persistence.entity.*;
 import org.hillel.persistence.entity.enums.DirectionType;
+import org.hillel.service.QueryType;
 import org.hillel.service.TicketClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -45,12 +46,33 @@ public class Starter {
         ticketClient.createOrUpdateVehicle(train);
 
 
-        System.out.println("delete ALL from STARTER");
-        ticketClient.removeStop(journeyEntity.getStops().get(1));
-//        ticketClient.removeStopById(journeyEntity.getStops().get(1).getId()); ---> отрабатывает также
-        ticketClient.removeVehicleById(train.getId());
-        ticketClient.removeJourney(journeyEntity);
-//         в итоге в БД должна остаться информация только по одной остановке и доп. информация по ней
+//        System.out.println(ticketClient.findVehiclesByIds(1L, 2L, 3L, 4L, 5L));
+//        System.out.println(ticketClient.findVehicleById(1L));
+        System.out.println("HQL");
+        System.out.println(ticketClient.findAllVehicles(QueryType.HQL));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.HQL)); LazyInitializationException  из-за Vehicle
+        System.out.println(ticketClient.findAllStops(QueryType.HQL));
+        System.out.println(ticketClient.findAllSeats(QueryType.HQL));
+        System.out.println("NATIVE");
+        System.out.println(ticketClient.findAllVehicles(QueryType.NATIVE));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.NATIVE));
+        System.out.println(ticketClient.findAllStops(QueryType.NATIVE));
+        System.out.println(ticketClient.findAllSeats(QueryType.NATIVE));
+        System.out.println("CRITERIA");
+        System.out.println(ticketClient.findAllVehicles(QueryType.CRITERIA));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.CRITERIA)); LazyInitializationException  из-за Vehicle
+        System.out.println(ticketClient.findAllStops(QueryType.CRITERIA));
+        System.out.println(ticketClient.findAllSeats(QueryType.CRITERIA));
+        System.out.println("NAMED");
+        System.out.println(ticketClient.findAllVehicles(QueryType.NAMED));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.NAMED)); LazyInitializationException  из-за Vehicle
+        System.out.println(ticketClient.findAllStops(QueryType.NAMED));
+        System.out.println(ticketClient.findAllSeats(QueryType.NAMED));
+        System.out.println("STORED PROCEDURE");
+        System.out.println(ticketClient.findAllVehicles(QueryType.STORED_PROCEDURE));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.STORED_PROCEDURE)); LazyInitializationException  из-за Vehicle
+        System.out.println(ticketClient.findAllStops(QueryType.STORED_PROCEDURE));
+        System.out.println(ticketClient.findAllSeats(QueryType.STORED_PROCEDURE));
     }
 
     private static JourneyEntity buildJourney(final String from, final String to,

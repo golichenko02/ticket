@@ -12,11 +12,11 @@
     <!--    <bean class="org.hillel.service.TicketClient">-->
     <!--        <constructor-arg name = "journeyService" ref="inMemoryJourneyService"/>-->
     <!--    </bean>-->
-    <!--        <bean id ="inMemoryJourneyService" class="org.hillel.service.InMemoryJourneyServiceImpl" >-->
+    <!--        <bean id ="inMemoryJourneyService" class="org.hillel.service.deprecated.InMemoryJourneyServiceImpl" >-->
     <!--        <constructor-arg name="identify" value="1"/>-->
     <!--        </bean>-->
 
-    <!--        <bean name="stub, stub2, stubJourneyService" class="org.hillel.service.StubJourneyServiceImpl">-->
+    <!--        <bean name="stub, stub2, stubJourneyService" class="org.hillel.service.deprecated.StubJourneyServiceImpl">-->
 
     <!--        </bean>-->
 </beans>

@@ -1,32 +1,18 @@
 package org.hillel.service;
 
 import org.hillel.persistence.entity.VehicleEntity;
+import org.hillel.persistence.repository.CommonRepository;
 import org.hillel.persistence.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service(value = "transactionalVehicleService")
-public class TransactionalVehicleService implements VehicleService {
+public class TransactionalVehicleService extends CommonService<VehicleEntity, Long> {
 
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    @Transactional
-    @Override
-    public VehicleEntity createOrUpdateVehicle(VehicleEntity vehicleEntity) {
-        return vehicleRepository.createOrUpdate(vehicleEntity);
-    }
-
-    @Transactional
-    @Override
-    public void remove(VehicleEntity vehicleEntity) {
-        vehicleRepository.remove(vehicleEntity);
-    }
-
-    @Transactional
-    @Override
-    public void removeById(Long id) {
-        vehicleRepository.removeById(id);
+    public TransactionalVehicleService(CommonRepository<VehicleEntity, Long> repository) {
+        super(repository);
     }
 }

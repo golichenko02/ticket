@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "stop")
@@ -20,6 +21,9 @@ import java.util.Objects;
 @NoArgsConstructor
 @DynamicUpdate
 @DynamicInsert
+@NamedQueries(value = {
+        @NamedQuery(name = "findAllStopEntity", query = "from StopEntity")
+})
 public class StopEntity extends AbstractModifyEntity<Long> {
 
     @Embedded
@@ -67,6 +71,14 @@ public class StopEntity extends AbstractModifyEntity<Long> {
         if(CollectionUtils.isEmpty(journeys)) return;
         journeys.forEach(journeyEntity -> journeyEntity.getStops().remove(this));
         journeys = null;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", StopEntity.class.getSimpleName() + "[", "]")
+                .add("commonInfo=" + commonInfo)
+                .add("additionalInfo=" + additionalInfo)
+                .toString();
     }
 }
 
