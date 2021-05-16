@@ -54,27 +54,27 @@ public class Starter {
 
         System.out.println("HQL");
         System.out.println(ticketClient.findAllVehicles(QueryType.HQL));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.HQL)); LazyInitializationException  из-за Vehicle
+        System.out.println(ticketClient.findAllJourneys(QueryType.HQL));
         System.out.println(ticketClient.findAllStops(QueryType.HQL));
         System.out.println(ticketClient.findAllSeats(QueryType.HQL));
         System.out.println("NATIVE");
         System.out.println(ticketClient.findAllVehicles(QueryType.NATIVE));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.NATIVE));
+        System.out.println(ticketClient.findAllJourneys(QueryType.NATIVE));
         System.out.println(ticketClient.findAllStops(QueryType.NATIVE));
         System.out.println(ticketClient.findAllSeats(QueryType.NATIVE));
         System.out.println("CRITERIA");
         System.out.println(ticketClient.findAllVehicles(QueryType.CRITERIA));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.CRITERIA)); LazyInitializationException  из-за Vehicle
+        System.out.println(ticketClient.findAllJourneys(QueryType.CRITERIA));
         System.out.println(ticketClient.findAllStops(QueryType.CRITERIA));
         System.out.println(ticketClient.findAllSeats(QueryType.CRITERIA));
         System.out.println("NAMED");
         System.out.println(ticketClient.findAllVehicles(QueryType.NAMED));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.NAMED)); LazyInitializationException  из-за Vehicle
+        System.out.println(ticketClient.findAllJourneys(QueryType.NAMED));
         System.out.println(ticketClient.findAllStops(QueryType.NAMED));
         System.out.println(ticketClient.findAllSeats(QueryType.NAMED));
         System.out.println("STORED PROCEDURE");
         System.out.println(ticketClient.findAllVehicles(QueryType.STORED_PROCEDURE));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.STORED_PROCEDURE)); LazyInitializationException  из-за Vehicle
+        System.out.println(ticketClient.findAllJourneys(QueryType.STORED_PROCEDURE));
         System.out.println(ticketClient.findAllStops(QueryType.STORED_PROCEDURE));
         System.out.println(ticketClient.findAllSeats(QueryType.STORED_PROCEDURE));
     }

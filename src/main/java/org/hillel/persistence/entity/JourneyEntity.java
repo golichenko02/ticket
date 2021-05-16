@@ -87,7 +87,6 @@ public class JourneyEntity extends AbstractModifyEntity<Long> {
                 .add("departure=" + departure)
                 .add("arrival=" + arrival)
                 .add("direction=" + direction)
-                .add("vehicle=" + vehicle)
                 .toString();
     }
 
