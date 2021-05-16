@@ -1,6 +1,7 @@
 package org.hillel.service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 public interface GenericService<E, ID> {
@@ -11,6 +12,10 @@ public interface GenericService<E, ID> {
     void removeById(ID id);
 
     Collection<E> findByIds(ID... ids);
+
+    default Collection<E> findAllByName(String name) {
+        return Collections.emptyList();
+    }
 
     Collection<E> findAll(QueryType queryType);
 

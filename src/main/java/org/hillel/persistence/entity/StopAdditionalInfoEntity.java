@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "stop_additional_info")
@@ -36,4 +37,15 @@ public class StopAdditionalInfoEntity {
     @MapsId
     @JoinColumn(name = "stop_id")
     private StopEntity stopEntity;
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", StopAdditionalInfoEntity.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("longitude=" + longitude)
+                .add("latitude=" + latitude)
+                .add("buildDate=" + buildDate)
+                .add("city='" + city + "'")
+                .toString();
+    }
 }

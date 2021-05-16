@@ -100,4 +100,11 @@ public class TicketClient {
         return transactionalVehicleSeatService.findAll(queryType);
     }
 
+    public Collection<StopEntity> findAllStopsByName(String name){
+        return transactionalStopService.findAllByName(name);
+    }
+
+    public Collection<StopEntity> findAllVehiclesByName(String name){
+        return transactionalVehicleService.findAllByName(name);
+    }
 }

@@ -46,8 +46,12 @@ public class Starter {
         ticketClient.createOrUpdateVehicle(train);
 
 
-//        System.out.println(ticketClient.findVehiclesByIds(1L, 2L, 3L, 4L, 5L));
-//        System.out.println(ticketClient.findVehicleById(1L));
+        System.out.println(ticketClient.findVehiclesByIds(1L, 2L, 3L, 4L, 5L));
+        System.out.println(ticketClient.findVehicleById(1L));
+
+        System.out.println(ticketClient.findAllStopsByName("Одесса-Главная"));
+        System.out.println(ticketClient.findAllVehiclesByName("Черноморец"));
+
         System.out.println("HQL");
         System.out.println(ticketClient.findAllVehicles(QueryType.HQL));
 //        System.out.println(ticketClient.findAllJourneys(QueryType.HQL)); LazyInitializationException  из-за Vehicle
