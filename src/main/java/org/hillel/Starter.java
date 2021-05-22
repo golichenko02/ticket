@@ -3,13 +3,13 @@ package org.hillel;
 import org.hillel.config.RootConfig;
 import org.hillel.persistence.entity.*;
 import org.hillel.persistence.entity.enums.DirectionType;
-import org.hillel.service.QueryType;
 import org.hillel.service.TicketClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Starter {
     public static void main(String[] args) {
@@ -46,37 +46,37 @@ public class Starter {
         ticketClient.createOrUpdateVehicle(train);
 
 
-        System.out.println(ticketClient.findVehiclesByIds(1L, 2L, 3L, 4L, 5L));
-        System.out.println(ticketClient.findVehicleById(1L));
+//        System.out.println(ticketClient.findVehiclesByIds(1L, 2L, 3L, 4L, 5L));
+//        System.out.println(ticketClient.findVehicleById(1L));
 
         System.out.println(ticketClient.findAllStopsByName("Одесса-Главная"));
         System.out.println(ticketClient.findAllVehiclesByName("Черноморец"));
 
-        System.out.println("HQL");
-        System.out.println(ticketClient.findAllVehicles(QueryType.HQL));
-        System.out.println(ticketClient.findAllJourneys(QueryType.HQL));
-        System.out.println(ticketClient.findAllStops(QueryType.HQL));
-        System.out.println(ticketClient.findAllSeats(QueryType.HQL));
-        System.out.println("NATIVE");
-        System.out.println(ticketClient.findAllVehicles(QueryType.NATIVE));
-        System.out.println(ticketClient.findAllJourneys(QueryType.NATIVE));
-        System.out.println(ticketClient.findAllStops(QueryType.NATIVE));
-        System.out.println(ticketClient.findAllSeats(QueryType.NATIVE));
-        System.out.println("CRITERIA");
-        System.out.println(ticketClient.findAllVehicles(QueryType.CRITERIA));
-        System.out.println(ticketClient.findAllJourneys(QueryType.CRITERIA));
-        System.out.println(ticketClient.findAllStops(QueryType.CRITERIA));
-        System.out.println(ticketClient.findAllSeats(QueryType.CRITERIA));
-        System.out.println("NAMED");
-        System.out.println(ticketClient.findAllVehicles(QueryType.NAMED));
-        System.out.println(ticketClient.findAllJourneys(QueryType.NAMED));
-        System.out.println(ticketClient.findAllStops(QueryType.NAMED));
-        System.out.println(ticketClient.findAllSeats(QueryType.NAMED));
-        System.out.println("STORED PROCEDURE");
-        System.out.println(ticketClient.findAllVehicles(QueryType.STORED_PROCEDURE));
-        System.out.println(ticketClient.findAllJourneys(QueryType.STORED_PROCEDURE));
-        System.out.println(ticketClient.findAllStops(QueryType.STORED_PROCEDURE));
-        System.out.println(ticketClient.findAllSeats(QueryType.STORED_PROCEDURE));
+//        System.out.println("HQL");
+//        System.out.println(ticketClient.findAllVehicles(QueryType.HQL));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.HQL));
+//        System.out.println(ticketClient.findAllStops(QueryType.HQL));
+//        System.out.println(ticketClient.findAllSeats(QueryType.HQL));
+//        System.out.println("NATIVE");
+//        System.out.println(ticketClient.findAllVehicles(QueryType.NATIVE));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.NATIVE));
+//        System.out.println(ticketClient.findAllStops(QueryType.NATIVE));
+//        System.out.println(ticketClient.findAllSeats(QueryType.NATIVE));
+//        System.out.println("CRITERIA");
+//        System.out.println(ticketClient.findAllVehicles(QueryType.CRITERIA));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.CRITERIA));
+//        System.out.println(ticketClient.findAllStops(QueryType.CRITERIA));
+//        System.out.println(ticketClient.findAllSeats(QueryType.CRITERIA));
+//        System.out.println("NAMED");
+//        System.out.println(ticketClient.findAllVehicles(QueryType.NAMED));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.NAMED));
+//        System.out.println(ticketClient.findAllStops(QueryType.NAMED));
+//        System.out.println(ticketClient.findAllSeats(QueryType.NAMED));
+//        System.out.println("STORED PROCEDURE");
+//        System.out.println(ticketClient.findAllVehicles(QueryType.STORED_PROCEDURE));
+//        System.out.println(ticketClient.findAllJourneys(QueryType.STORED_PROCEDURE));
+//        System.out.println(ticketClient.findAllStops(QueryType.STORED_PROCEDURE));
+//        System.out.println(ticketClient.findAllSeats(QueryType.STORED_PROCEDURE));
     }
 
     private static JourneyEntity buildJourney(final String from, final String to,

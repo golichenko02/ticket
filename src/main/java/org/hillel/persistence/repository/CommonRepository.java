@@ -3,6 +3,8 @@ package org.hillel.persistence.repository;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hillel.persistence.entity.AbstractModifyEntity;
+import org.hillel.persistence.entity.CommonInfo_;
+import org.hillel.persistence.entity.VehicleEntity_;
 import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
@@ -70,8 +72,10 @@ public abstract class CommonRepository<E extends AbstractModifyEntity<ID>, ID ex
         final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         final CriteriaQuery<E> query = criteriaBuilder.createQuery(entityClass);
         final Root<E> from = query.from(entityClass);
-        final Predicate byName = criteriaBuilder.equal(from.get("commonInfo").get("name"), criteriaBuilder.literal(name));
-        return entityManager.createQuery(query.select(from).where(byName)).getResultList();
+        final Predicate byName = criteriaBuilder.equal(from.get(VehicleEntity_.COMMON_INFO).get(CommonInfo_.NAME),
+                criteriaBuilder.parameter(String.class, "nameParam"));
+        return entityManager.createQuery(query.select(from).where(byName))
+                .setParameter("nameParam", name).getResultList();
     }
 
     @Override
