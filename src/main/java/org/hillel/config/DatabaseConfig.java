@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -50,7 +51,7 @@ public class DatabaseConfig {
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         Properties properties = new Properties();
         properties.put("hibernate.dialect", PostgreSQL10Dialect.class.getName());
-        properties.put("hibernate.hbm2ddl.auto", "none");
+        properties.put("hibernate.hbm2ddl.auto", "validate");
         properties.put("hibernate.show_sql", "true");
         properties.put("javax.persistence.query.timeout", environment.getProperty("database.queryTimeout"));
         emf.setJpaProperties(properties);
@@ -65,4 +66,8 @@ public class DatabaseConfig {
         return jpaTransactionManager;
     }
 
+    @Bean
+    public TransactionTemplate transactionTemplate(final PlatformTransactionManager transactionManager){
+        return new TransactionTemplate(transactionManager);
+    }
 }

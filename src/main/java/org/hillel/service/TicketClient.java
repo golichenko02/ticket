@@ -107,4 +107,12 @@ public class TicketClient {
     public Collection<StopEntity> findAllVehiclesByName(String name){
         return transactionalVehicleService.findAllByName(name);
     }
+
+    public Collection<VehicleEntity> findVehicleWithMaxFreeSeats(){
+        return transactionalVehicleService.findWithMaxFreeSeats();
+    }
+
+    public Collection<VehicleEntity> findVehicleWithMinFreeSeats(){
+        return transactionalVehicleService.findWithMinFreeSeats();
+    }
 }

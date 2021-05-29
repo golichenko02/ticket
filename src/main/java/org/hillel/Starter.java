@@ -21,8 +21,13 @@ public class Starter {
         VehicleEntity train = buildVehicle(buildCommonInfo("Черноморец", "Скоростной фирменный поезд"),
                 100, buildSeats(true, 1, 2, 3, 4, 5, 6, 50, 52, 60, 71));
 
+
+        VehicleEntity plain = buildVehicle(buildCommonInfo("Turkish Airlines", "перевозчик Турции"),
+                80, buildSeats(false, 10,20,25,28,30,70,76));
+
         train = ticketClient.createOrUpdateVehicle(train);
 
+        plain = ticketClient.createOrUpdateVehicle(plain);
 
         JourneyEntity journeyEntity = buildJourney("Одесса", "Киев", LocalDate.now(), LocalDate.now().plusDays(1));
 
@@ -49,34 +54,12 @@ public class Starter {
 //        System.out.println(ticketClient.findVehiclesByIds(1L, 2L, 3L, 4L, 5L));
 //        System.out.println(ticketClient.findVehicleById(1L));
 
-        System.out.println(ticketClient.findAllStopsByName("Одесса-Главная"));
-        System.out.println(ticketClient.findAllVehiclesByName("Черноморец"));
+        System.out.println("Транспортные средства с наименьшим количеством свободных мест");
+        System.out.println(ticketClient.findVehicleWithMinFreeSeats());
 
-//        System.out.println("HQL");
-//        System.out.println(ticketClient.findAllVehicles(QueryType.HQL));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.HQL));
-//        System.out.println(ticketClient.findAllStops(QueryType.HQL));
-//        System.out.println(ticketClient.findAllSeats(QueryType.HQL));
-//        System.out.println("NATIVE");
-//        System.out.println(ticketClient.findAllVehicles(QueryType.NATIVE));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.NATIVE));
-//        System.out.println(ticketClient.findAllStops(QueryType.NATIVE));
-//        System.out.println(ticketClient.findAllSeats(QueryType.NATIVE));
-//        System.out.println("CRITERIA");
-//        System.out.println(ticketClient.findAllVehicles(QueryType.CRITERIA));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.CRITERIA));
-//        System.out.println(ticketClient.findAllStops(QueryType.CRITERIA));
-//        System.out.println(ticketClient.findAllSeats(QueryType.CRITERIA));
-//        System.out.println("NAMED");
-//        System.out.println(ticketClient.findAllVehicles(QueryType.NAMED));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.NAMED));
-//        System.out.println(ticketClient.findAllStops(QueryType.NAMED));
-//        System.out.println(ticketClient.findAllSeats(QueryType.NAMED));
-//        System.out.println("STORED PROCEDURE");
-//        System.out.println(ticketClient.findAllVehicles(QueryType.STORED_PROCEDURE));
-//        System.out.println(ticketClient.findAllJourneys(QueryType.STORED_PROCEDURE));
-//        System.out.println(ticketClient.findAllStops(QueryType.STORED_PROCEDURE));
-//        System.out.println(ticketClient.findAllSeats(QueryType.STORED_PROCEDURE));
+        System.out.println("Транспортные средства с наибольшим количеством свободных мест");
+        System.out.println(ticketClient.findVehicleWithMaxFreeSeats());
+
     }
 
     private static JourneyEntity buildJourney(final String from, final String to,

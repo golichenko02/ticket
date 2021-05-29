@@ -35,6 +35,12 @@ public interface GenericService<E, ID> {
         return Optional.empty();
     }
 
+    default Collection<VehicleEntity> findWithMaxFreeSeats() {
+        return Collections.emptyList();
+    }
 
+    default Collection<VehicleEntity> findWithMinFreeSeats() {
+        return Collections.emptyList();
+    }
 }
 
