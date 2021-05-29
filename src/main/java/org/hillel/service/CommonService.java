@@ -2,6 +2,8 @@ package org.hillel.service;
 
 import org.hillel.persistence.entity.AbstractModifyEntity;
 import org.hillel.persistence.repository.CommonRepository;
+import org.hillel.service.query_info.PaginationInfo;
+import org.hillel.service.query_info.QueryType;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -9,6 +11,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 public abstract class CommonService<E extends AbstractModifyEntity<ID>, ID extends Serializable> implements GenericService<E, ID> {
+
     private final CommonRepository<E, ID> repository;
 
     public CommonService(CommonRepository<E, ID> repository) {
@@ -17,16 +20,16 @@ public abstract class CommonService<E extends AbstractModifyEntity<ID>, ID exten
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<E> findAll(QueryType queryType) {
+    public Collection<E> findAll(QueryType queryType, PaginationInfo paginationInfo) {
         switch (queryType) {
             case HQL:
-                return findAll();
+                return findAll(paginationInfo);
             case NATIVE:
-                return findAllAsNative();
+                return findAllAsNative(paginationInfo);
             case NAMED:
-                return findAllAsNamed();
+                return findAllAsNamed(paginationInfo);
             case CRITERIA:
-                return findAllAsCriteria();
+                return findAllAsCriteria(paginationInfo);
             case STORED_PROCEDURE:
                 return findAllAsStoredProcedure();
             default:
@@ -34,28 +37,29 @@ public abstract class CommonService<E extends AbstractModifyEntity<ID>, ID exten
         }
     }
 
+
     @Override
     @Transactional(readOnly = true)
-    public Collection<E> findAll() {
-        return repository.findAll();
+    public Collection<E> findAll(PaginationInfo paginationInfo) {
+        return repository.findAll(paginationInfo);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<E> findAllAsNative() {
-        return repository.findAllAsNative();
+    public Collection<E> findAllAsNative(PaginationInfo paginationInfo) {
+        return repository.findAllAsNative(paginationInfo);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<E> findAllAsNamed() {
-        return repository.findAllAsNamed();
+    public Collection<E> findAllAsNamed(PaginationInfo paginationInfo) {
+        return repository.findAllAsNamed(paginationInfo);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<E> findAllAsCriteria() {
-        return repository.findAllAsCriteria();
+    public Collection<E> findAllAsCriteria(PaginationInfo paginationInfo) {
+        return repository.findAllAsCriteria(paginationInfo);
     }
 
     @Override

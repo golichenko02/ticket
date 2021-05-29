@@ -23,7 +23,7 @@ import java.util.*;
 @DynamicUpdate
 @DynamicInsert
 @NamedQueries(value = {
-        @NamedQuery(name = "findAllVehicleEntity", query = "from VehicleEntity")
+        @NamedQuery(name = "findAllVehicleEntity", query = "select v from VehicleEntity v")
 })
 @NamedStoredProcedureQueries(
         @NamedStoredProcedureQuery(
@@ -89,6 +89,7 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
     @Override
     public String toString() {
         return new StringJoiner(", ", VehicleEntity.class.getSimpleName() + "[", "]")
+                .add("id=" + getId())
                 .add("commonInfo=" + commonInfo)
                 .toString();
     }

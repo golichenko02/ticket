@@ -22,7 +22,7 @@ import java.util.StringJoiner;
 @DynamicUpdate
 @DynamicInsert
 @NamedQueries(value = {
-        @NamedQuery(name = "findAllStopEntity", query = "from StopEntity")
+        @NamedQuery(name = "findAllStopEntity", query = "select s from StopEntity s")
 })
 public class StopEntity extends AbstractModifyEntity<Long> {
 
@@ -68,7 +68,7 @@ public class StopEntity extends AbstractModifyEntity<Long> {
     }
 
     public void removeJourney() {
-        if(CollectionUtils.isEmpty(journeys)) return;
+        if (CollectionUtils.isEmpty(journeys)) return;
         journeys.forEach(journeyEntity -> journeyEntity.getStops().remove(this));
         journeys = null;
     }
@@ -76,6 +76,7 @@ public class StopEntity extends AbstractModifyEntity<Long> {
     @Override
     public String toString() {
         return new StringJoiner(", ", StopEntity.class.getSimpleName() + "[", "]")
+                .add("id=" + getId())
                 .add("commonInfo=" + commonInfo)
                 .add("additionalInfo=" + additionalInfo)
                 .toString();

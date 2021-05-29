@@ -1,5 +1,9 @@
 package org.hillel.service;
 
+import org.hillel.persistence.entity.VehicleEntity;
+import org.hillel.service.query_info.PaginationInfo;
+import org.hillel.service.query_info.QueryType;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -17,17 +21,17 @@ public interface GenericService<E, ID> {
         return Collections.emptyList();
     }
 
-    Collection<E> findAll(QueryType queryType);
+    Collection<E> findAll(QueryType queryType, PaginationInfo paginationInfo);
 
-    Collection<E> findAll();
+    Collection<E> findAll(PaginationInfo paginationInfo);
 
     Optional<E> findById(ID id);
 
-    Collection<E> findAllAsNative();
+    Collection<E> findAllAsNative(PaginationInfo paginationInfo);
 
-    Collection<E> findAllAsNamed();
+    Collection<E> findAllAsNamed(PaginationInfo paginationInfo);
 
-    Collection<E> findAllAsCriteria();
+    Collection<E> findAllAsCriteria(PaginationInfo paginationInfo);
 
     Collection<E> findAllAsStoredProcedure();
 

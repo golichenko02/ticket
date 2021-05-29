@@ -22,7 +22,7 @@ import java.util.StringJoiner;
 @DynamicInsert
 @Check(constraints = "seat_number > 0")
 @NamedQueries(value = {
-        @NamedQuery(name = "findAllVehicleSeatEntity", query = "from VehicleSeatEntity")
+        @NamedQuery(name = "findAllVehicleSeatEntity", query = "select vs from VehicleSeatEntity vs")
 })
 public class VehicleSeatEntity extends AbstractModifyEntity<Long> {
 
@@ -44,6 +44,7 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long> {
     @Override
     public String toString() {
         return new StringJoiner(", ", VehicleSeatEntity.class.getSimpleName() + "[", "]")
+                .add("id=" + getId())
                 .add("seatNumber=" + seatNumber)
                 .add("isBooked=" + isBooked)
                 .toString();

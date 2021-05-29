@@ -4,6 +4,8 @@ import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.StopEntity;
 import org.hillel.persistence.entity.VehicleEntity;
 import org.hillel.persistence.entity.VehicleSeatEntity;
+import org.hillel.service.query_info.PaginationInfo;
+import org.hillel.service.query_info.QueryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -84,27 +86,27 @@ public class TicketClient {
         return transactionalVehicleService.findById(id);
     }
 
-    public Collection<VehicleEntity> findAllVehicles(QueryType queryType) {
-        return transactionalVehicleService.findAll(queryType);
+    public Collection<VehicleEntity> findAllVehicles(QueryType queryType, PaginationInfo paginationInfo) {
+        return transactionalVehicleService.findAll(queryType, paginationInfo);
     }
 
-    public Collection<JourneyEntity> findAllJourneys(QueryType queryType) {
-        return transactionalJourneyService.findAll(queryType);
+    public Collection<JourneyEntity> findAllJourneys(QueryType queryType, PaginationInfo paginationInfo) {
+        return transactionalJourneyService.findAll(queryType, paginationInfo);
     }
 
-    public Collection<StopEntity> findAllStops(QueryType queryType) {
-        return transactionalStopService.findAll(queryType);
+    public Collection<StopEntity> findAllStops(QueryType queryType, PaginationInfo paginationInfo) {
+        return transactionalStopService.findAll(queryType, paginationInfo);
     }
 
-    public Collection<VehicleSeatEntity> findAllSeats(QueryType queryType) {
-        return transactionalVehicleSeatService.findAll(queryType);
+    public Collection<VehicleSeatEntity> findAllSeats(QueryType queryType, PaginationInfo paginationInfo) {
+        return transactionalVehicleSeatService.findAll(queryType, paginationInfo);
     }
 
-    public Collection<StopEntity> findAllStopsByName(String name){
+    public Collection<StopEntity> findAllStopsByName(String name) {
         return transactionalStopService.findAllByName(name);
     }
 
-    public Collection<StopEntity> findAllVehiclesByName(String name){
+    public Collection<StopEntity> findAllVehiclesByName(String name) {
         return transactionalVehicleService.findAllByName(name);
     }
 

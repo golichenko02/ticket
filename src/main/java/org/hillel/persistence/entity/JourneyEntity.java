@@ -23,7 +23,7 @@ import java.util.StringJoiner;
 @DynamicUpdate
 @DynamicInsert
 @NamedQueries(value = {
-        @NamedQuery(name = "findAllJourneyEntity", query = "from JourneyEntity")
+        @NamedQuery(name = "findAllJourneyEntity", query = "select j from JourneyEntity j")
 })
 public class JourneyEntity extends AbstractModifyEntity<Long> {
 
@@ -82,6 +82,7 @@ public class JourneyEntity extends AbstractModifyEntity<Long> {
     @Override
     public String toString() {
         return new StringJoiner(", ", JourneyEntity.class.getSimpleName() + "[", "]")
+                .add("id='" + getId() + "'")
                 .add("stationFrom='" + stationFrom + "'")
                 .add("stationTo='" + stationTo + "'")
                 .add("departure=" + departure)

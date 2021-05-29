@@ -2,15 +2,14 @@ package org.hillel.persistence.repository;
 
 import lombok.SneakyThrows;
 import org.hibernate.Session;
+import org.hibernate.query.criteria.internal.OrderImpl;
 import org.hillel.persistence.entity.AbstractModifyEntity;
 import org.hillel.persistence.entity.CommonInfo_;
 import org.hillel.persistence.entity.VehicleEntity_;
+import org.hillel.service.query_info.PaginationInfo;
 import org.springframework.util.Assert;
 
-import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -78,27 +77,43 @@ public abstract class CommonRepository<E extends AbstractModifyEntity<ID>, ID ex
                 .setParameter("nameParam", name).getResultList();
     }
 
+
     @Override
-    public Collection<E> findAll() {
-        return entityManager.createQuery("from " + entityClass.getSimpleName(), entityClass).getResultList();
+    public Collection<E> findAll(PaginationInfo paginationInfo) {
+        return entityManager.createQuery("select e from " + entityClass.getSimpleName() + " e " + paginationInfo.getOrderBy(), entityClass)
+                .setFirstResult(paginationInfo.getFirstResult())
+                .setMaxResults(paginationInfo.getPageSize())
+                .getResultList();
     }
 
     @Override
-    public Collection<E> findAllAsNative() {
-        return entityManager.createNativeQuery("select * from " + entityClass.getAnnotation(Table.class).name(), entityClass).getResultList();
+    public Collection<E> findAllAsNative(PaginationInfo paginationInfo) {
+        return entityManager.createNativeQuery("select * from " + entityClass.getAnnotation(Table.class).name() +
+                paginationInfo.getOrderBy(), entityClass)
+                .setFirstResult(paginationInfo.getFirstResult())
+                .setMaxResults(paginationInfo.getPageSize())
+                .getResultList();
     }
 
     @Override
-    public Collection<E> findAllAsNamed() {
-        return entityManager.createNamedQuery("findAll" + entityClass.getSimpleName(), entityClass).getResultList();
+    public Collection<E> findAllAsNamed(PaginationInfo paginationInfo) {
+        return entityManager
+                .createNamedQuery(entityClass.getAnnotation(NamedQueries.class).value()[0].name(), entityClass)
+                .setFirstResult(paginationInfo.getFirstResult())
+                .setMaxResults(paginationInfo.getPageSize())
+                .getResultList();
     }
 
     @Override
-    public Collection<E> findAllAsCriteria() {
+    public Collection<E> findAllAsCriteria(PaginationInfo paginationInfo) {
         final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         final CriteriaQuery<E> query = criteriaBuilder.createQuery(entityClass);
         final Root<E> from = query.from(entityClass);
-        return entityManager.createQuery(query.select(from)).getResultList();
+        final OrderImpl order = new OrderImpl(from.get(paginationInfo.getOrderField()), paginationInfo.isAsc());
+        return entityManager.createQuery(query.select(from).orderBy(order))
+                .setFirstResult(paginationInfo.getFirstResult())
+                .setMaxResults(paginationInfo.getPageSize())
+                .getResultList();
     }
 
     @Override

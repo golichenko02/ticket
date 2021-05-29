@@ -4,6 +4,8 @@ import org.hillel.config.RootConfig;
 import org.hillel.persistence.entity.*;
 import org.hillel.persistence.entity.enums.DirectionType;
 import org.hillel.service.TicketClient;
+import org.hillel.service.query_info.PaginationInfo;
+import org.hillel.service.query_info.QueryType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -51,8 +53,18 @@ public class Starter {
         ticketClient.createOrUpdateVehicle(train);
 
 
-//        System.out.println(ticketClient.findVehiclesByIds(1L, 2L, 3L, 4L, 5L));
-//        System.out.println(ticketClient.findVehicleById(1L));
+        System.out.println("HQL");
+        System.out.println(ticketClient.findAllStops(QueryType.HQL, new PaginationInfo(3, 5, "active", true)));
+        System.out.println(ticketClient.findAllJourneys(QueryType.HQL, new PaginationInfo(5, 10, "id", false)));
+        System.out.println(ticketClient.findAllVehicles(QueryType.HQL, new PaginationInfo(8, 5, "name", true)));
+        System.out.println("CRITERIA");
+        System.out.println(ticketClient.findAllStops(QueryType.CRITERIA, new PaginationInfo(3, 5, "commonInfo", false)));
+        System.out.println(ticketClient.findAllJourneys(QueryType.CRITERIA, new PaginationInfo(3, 5, "stationFrom", true)));
+        System.out.println(ticketClient.findAllVehicles(QueryType.CRITERIA, new PaginationInfo(3, 5, "id", false)));
+        System.out.println("NATIVE");
+        System.out.println(ticketClient.findAllStops(QueryType.NATIVE, new PaginationInfo(4, 3, "name", false)));
+        System.out.println(ticketClient.findAllJourneys(QueryType.NATIVE, new PaginationInfo(5, 5, "active", true)));
+        System.out.println(ticketClient.findAllVehicles(QueryType.NATIVE, new PaginationInfo(5, 10, "active", true)));
 
         System.out.println("Транспортные средства с наименьшим количеством свободных мест");
         System.out.println(ticketClient.findVehicleWithMinFreeSeats());
