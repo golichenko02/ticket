@@ -1,11 +1,13 @@
 package org.hillel.service;
 
-import org.hillel.persistence.entity.VehicleEntity;
+import org.hillel.persistence.jpa.repository.SimpleVehicleDto;
+import org.hillel.persistence.jpa.repository.specification.ISpecification;
 import org.hillel.service.query_info.PaginationInfo;
-import org.hillel.service.query_info.QueryType;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public interface GenericService<E, ID> {
@@ -21,30 +23,27 @@ public interface GenericService<E, ID> {
         return Collections.emptyList();
     }
 
-    Collection<E> findAll(QueryType queryType, PaginationInfo paginationInfo);
-
     Collection<E> findAll(PaginationInfo paginationInfo);
+
+    Collection<E> findAllWithSpecification(PaginationInfo paginationInfo);
 
     Optional<E> findById(ID id);
 
-    Collection<E> findAllAsNative(PaginationInfo paginationInfo);
-
-    Collection<E> findAllAsNamed(PaginationInfo paginationInfo);
-
-    Collection<E> findAllAsCriteria(PaginationInfo paginationInfo);
-
-    Collection<E> findAllAsStoredProcedure();
-
-    default Optional<E> findById(ID id, boolean withDependencies) {
-        return Optional.empty();
-    }
-
-    default Collection<VehicleEntity> findWithMaxFreeSeats() {
+    default Collection<E> findWithMaxFreeSeats() {
         return Collections.emptyList();
     }
 
-    default Collection<VehicleEntity> findWithMinFreeSeats() {
+    default Collection<E> findWithMinFreeSeats() {
         return Collections.emptyList();
     }
+
+    default void disableById(Long id) {
+    }
+
+    default List<SimpleVehicleDto> listAllSimpleVehicles() {
+        return Collections.emptyList();
+    }
+
+    Specification<E> getSpecification(ISpecification filterKey, String filterValue);
 }
 

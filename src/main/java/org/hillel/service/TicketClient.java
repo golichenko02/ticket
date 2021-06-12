@@ -4,13 +4,14 @@ import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.StopEntity;
 import org.hillel.persistence.entity.VehicleEntity;
 import org.hillel.persistence.entity.VehicleSeatEntity;
+import org.hillel.persistence.jpa.repository.SimpleVehicleDto;
 import org.hillel.service.query_info.PaginationInfo;
-import org.hillel.service.query_info.QueryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -34,11 +35,6 @@ public class TicketClient {
 
     public JourneyEntity createOrUpdateJourney(final JourneyEntity journeyEntity) {
         return (JourneyEntity) transactionalJourneyService.createOrUpdate(journeyEntity);
-    }
-
-    public Optional<JourneyEntity> findJourneyById(Long id, boolean withDependencies) {
-//        Assert.notNull(id, "id must be set");
-        return id == null ? Optional.empty() : transactionalJourneyService.findById(id, withDependencies);
     }
 
     public StopEntity createOrUpdateStop(final StopEntity stopEntity) {
@@ -86,35 +82,52 @@ public class TicketClient {
         return transactionalVehicleService.findById(id);
     }
 
-    public Collection<VehicleEntity> findAllVehicles(QueryType queryType, PaginationInfo paginationInfo) {
-        return transactionalVehicleService.findAll(queryType, paginationInfo);
+    public Collection<VehicleEntity> findAllVehicles(PaginationInfo paginationInfo) {
+        return transactionalVehicleService.findAll(paginationInfo);
     }
 
-    public Collection<JourneyEntity> findAllJourneys(QueryType queryType, PaginationInfo paginationInfo) {
-        return transactionalJourneyService.findAll(queryType, paginationInfo);
+    public Collection<JourneyEntity> findAllJourneys(PaginationInfo paginationInfo) {
+        return transactionalJourneyService.findAll(paginationInfo);
     }
 
-    public Collection<StopEntity> findAllStops(QueryType queryType, PaginationInfo paginationInfo) {
-        return transactionalStopService.findAll(queryType, paginationInfo);
+    public Collection<StopEntity> findAllStops(PaginationInfo paginationInfo) {
+        return transactionalStopService.findAll(paginationInfo);
     }
 
-    public Collection<VehicleSeatEntity> findAllSeats(QueryType queryType, PaginationInfo paginationInfo) {
-        return transactionalVehicleSeatService.findAll(queryType, paginationInfo);
+    public Collection<VehicleSeatEntity> findAllSeats(PaginationInfo paginationInfo) {
+        return transactionalVehicleSeatService.findAll(paginationInfo);
     }
 
-    public Collection<StopEntity> findAllStopsByName(String name) {
-        return transactionalStopService.findAllByName(name);
+    public Collection<StopEntity> findAllStopsWithSpecification(PaginationInfo paginationInfo) {
+        return transactionalStopService.findAllWithSpecification(paginationInfo);
     }
 
-    public Collection<StopEntity> findAllVehiclesByName(String name) {
-        return transactionalVehicleService.findAllByName(name);
+    public Collection<JourneyEntity> findAllJourneysWithSpecification(PaginationInfo paginationInfo) {
+        return transactionalJourneyService.findAllWithSpecification(paginationInfo);
     }
 
-    public Collection<VehicleEntity> findVehicleWithMaxFreeSeats(){
+    public Collection<VehicleSeatEntity> findAllSeatsWithSpecification(PaginationInfo paginationInfo) {
+        return transactionalVehicleSeatService.findAllWithSpecification(paginationInfo);
+    }
+
+    public Collection<VehicleEntity> findAllVehiclesWithSpecification(PaginationInfo paginationInfo) {
+        return transactionalVehicleService.findAllWithSpecification(paginationInfo);
+    }
+
+    public Collection<VehicleEntity> findVehicleWithMaxFreeSeats() {
         return transactionalVehicleService.findWithMaxFreeSeats();
     }
 
-    public Collection<VehicleEntity> findVehicleWithMinFreeSeats(){
+    public Collection<VehicleEntity> findVehicleWithMinFreeSeats() {
         return transactionalVehicleService.findWithMinFreeSeats();
+    }
+
+    public void disableById(Long id) {
+        transactionalVehicleService.disableById(id);
+    }
+
+
+    public List<SimpleVehicleDto> listAllSimpleVehicles() {
+        return transactionalVehicleService.listAllSimpleVehicles();
     }
 }

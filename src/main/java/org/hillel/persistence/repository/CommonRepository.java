@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.query.criteria.internal.OrderImpl;
 import org.hillel.persistence.entity.AbstractModifyEntity;
-import org.hillel.persistence.entity.CommonInfo_;
 import org.hillel.persistence.entity.VehicleEntity_;
 import org.hillel.service.query_info.PaginationInfo;
 import org.springframework.util.Assert;
@@ -71,7 +70,7 @@ public abstract class CommonRepository<E extends AbstractModifyEntity<ID>, ID ex
         final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         final CriteriaQuery<E> query = criteriaBuilder.createQuery(entityClass);
         final Root<E> from = query.from(entityClass);
-        final Predicate byName = criteriaBuilder.equal(from.get(VehicleEntity_.COMMON_INFO).get(CommonInfo_.NAME),
+        final Predicate byName = criteriaBuilder.equal(from.get(VehicleEntity_.NAME),
                 criteriaBuilder.parameter(String.class, "nameParam"));
         return entityManager.createQuery(query.select(from).where(byName))
                 .setParameter("nameParam", name).getResultList();

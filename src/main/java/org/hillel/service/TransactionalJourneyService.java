@@ -1,35 +1,35 @@
 package org.hillel.service;
 
 import org.hillel.persistence.entity.JourneyEntity;
-import org.hillel.persistence.repository.CommonRepository;
-import org.hillel.persistence.repository.JourneyRepository;
+import org.hillel.persistence.jpa.repository.CommonJpaRepository;
+import org.hillel.persistence.jpa.repository.JourneyJpaRepository;
+import org.hillel.persistence.jpa.repository.specification.ISpecification;
+import org.hillel.persistence.jpa.repository.specification.JourneySpecification;
+import org.hillel.service.query_info.PaginationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.Collection;
 
 @Service(value = "transactionalJourneyService")
 public class TransactionalJourneyService extends CommonService<JourneyEntity, Long>{
 
     @Autowired
-    JourneyRepository journeyRepository;
+    JourneyJpaRepository journeyRepository;
 
-    public TransactionalJourneyService(CommonRepository<JourneyEntity, Long> repository) {
+    public TransactionalJourneyService(CommonJpaRepository<JourneyEntity, Long> repository) {
         super(repository);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<JourneyEntity> findById(Long id, boolean withDependencies) {
-        final Optional<JourneyEntity> byId = journeyRepository.findById(id);
-        if (withDependencies && byId.isPresent()) {
-            final JourneyEntity journeyEntity = byId.get();
-            journeyEntity.getVehicle().getCommonInfo().getName();
-            journeyEntity.getStops().size();
-        }
-        return byId;
+    public Collection<JourneyEntity> findAllWithSpecification(PaginationInfo paginationInfo) {
+        return journeyRepository.findAll(getSpecification(paginationInfo.getSpecificationFilter(), paginationInfo.getValue()),
+                paginationInfo.createPageRequest()).getContent();
     }
 
-
+    @Override
+    public Specification<JourneyEntity> getSpecification(ISpecification specification, String filterValue) {
+        return  JourneySpecification.valueOf(specification.toString()).getSpecification(filterValue);
+    }
 }
