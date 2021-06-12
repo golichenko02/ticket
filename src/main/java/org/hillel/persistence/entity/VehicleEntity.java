@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -18,6 +19,7 @@ import java.util.*;
 @Table(name = "vehicle")
 @Getter
 @Setter
+@Accessors(chain = true)
 @NoArgsConstructor
 @Check(constraints = "max_seats > 0")
 @DynamicUpdate
@@ -35,8 +37,11 @@ import java.util.*;
 )
 public class VehicleEntity extends AbstractModifyEntity<Long> {
 
-    @Embedded
-    private CommonInfo commonInfo;
+//    @Embedded
+//    private CommonInfo commonInfo;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "max_seats", nullable = false)
     private int maxSeats;
@@ -68,7 +73,7 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
         if (seats == null)
             seats = new ArrayList<>();
         if (seats.size() == maxSeats)
-            throw new TooMuchSeatsException("The maximum value of seats for " + commonInfo.getName() + " is " + maxSeats);
+            throw new TooMuchSeatsException("The maximum value of seats for " + name + " is " + maxSeats);
         this.seats.add(seat);
         seat.setVehicle(this);
     }
@@ -90,7 +95,7 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
     public String toString() {
         return new StringJoiner(", ", VehicleEntity.class.getSimpleName() + "[", "]")
                 .add("id=" + getId())
-                .add("commonInfo=" + commonInfo)
+                .add("name=" + name)
                 .toString();
     }
 
